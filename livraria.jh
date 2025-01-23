@@ -1,0 +1,65 @@
+
+entity Autor {
+  nome String required,
+  biografia String,
+  dataNascimento LocalDate
+}
+
+entity Livro {
+  titulo String required,
+  descricao String,
+  preco BigDecimal required,
+  dataPublicacao LocalDate required
+}
+
+entity Cliente {
+  nome String required,
+  email String required,
+  telefone String,
+  endereco String required
+}
+
+entity Pedido {
+  dataPedido LocalDate required,
+  status String required
+}
+
+entity ItemPedido {
+  quantidade Integer required,
+  precoUnitario BigDecimal required
+}
+
+entity Pagamento {
+  dataPagamento LocalDate required,
+  valor BigDecimal required,
+  tipoPagamento String required
+}
+
+entity Endereco {
+  rua String required,
+  numero String required,
+  cidade String required,
+  estado String required,
+  cep String required
+}
+
+relationship ManyToOne {
+  Livro{autor} to Autor
+  Pedido{cliente} to Cliente
+  Pedido{endereco} to Endereco
+}
+
+relationship OneToMany {
+  Cliente{pedidos} to Pedido
+  Pedido{itens} to ItemPedido
+}
+
+relationship OneToOne {
+  Pedido{pagamento} to Pagamento
+}
+
+dto Livro, Autor, Cliente, Pedido, ItemPedido, Pagamento, Endereco with mapstruct
+
+paginate Livro, Cliente, Pedido with pagination
+
+service Livro, Autor, Cliente, Pedido with serviceClass
